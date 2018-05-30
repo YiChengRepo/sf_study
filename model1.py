@@ -1,25 +1,19 @@
 import math
-
-from IPython import display
 import numpy as np
 import pandas as pd
-from sklearn import metrics
 import tensorflow as tf
+from sklearn import metrics
 from tensorflow.python.data import Dataset
 
 tf.logging.set_verbosity(tf.logging.ERROR)
 pd.options.display.max_rows = 10
 pd.options.display.float_format = '{:.1f}'.format
-
 california_housing_dataframe = pd.read_csv("https://storage.googleapis.com/mledu-datasets/california_housing_train.csv", sep=",")
-
 california_housing_dataframe.describe()
-
 california_housing_dataframe = california_housing_dataframe.reindex(
     np.random.permutation(california_housing_dataframe.index))
 california_housing_dataframe["median_house_value"] /= 1000.0
 california_housing_dataframe
-
 california_housing_dataframe.describe()
 
 
@@ -123,17 +117,14 @@ def train_model(learning_rate, steps, batch_size, input_feature="total_rooms"):
                                           sample[my_feature].max()),
                                sample[my_feature].min())
         y_extents = weight * x_extents + bias
-    print
-    "Model training finished."
+    print ("Model training finished.")
 
     # Output a table with calibration data.
     calibration_data = pd.DataFrame()
     calibration_data["predictions"] = pd.Series(predictions)
     calibration_data["targets"] = pd.Series(targets)
     print(calibration_data.describe())
-
     print ("Final RMSE (on training data): {0:.2f}".format(root_mean_squared_error))
-
 
 train_model(
         learning_rate=0.00002,
